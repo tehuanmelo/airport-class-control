@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { getData } from "../components/services.js";
+import Loading from "../components/Loading.jsx";
 
 function Home() {
   const [data, setData] = useState([]);
@@ -18,7 +19,7 @@ function Home() {
   }, []);
 
   if (loading) {
-    return <main>Loading...</main>;
+    return <Loading />;
   }
 
   return (

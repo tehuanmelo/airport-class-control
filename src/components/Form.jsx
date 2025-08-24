@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 
 import { URL } from "../components/services.js";
 import NumberInput from "./NumberInput.jsx";
+import Loading from "./Loading.jsx";
 
 function Form() {
   const [loading, setLoading] = useState(true);
@@ -16,6 +17,7 @@ function Form() {
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
   const [numberOfClasses, setNumber] = useState(0);
+  const [numberOfCoaches, setNumnberOfCoaches] = useState(0);
   const [date, setDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split("T")[0]; // gives 'YYYY-MM-DD'
@@ -43,6 +45,13 @@ function Form() {
     setClasses(newArray);
   }, [numberOfClasses]);
 
+  useEffect(() => {
+    const newArray = Array.from({ length: Number(numberOfCoaches) }, () => ({
+      coach: "",
+    }));
+    setSelectedCoaches(newArray);
+  }, [numberOfCoaches]);
+
   function updateClasses(index, key, value) {
     setClasses((prev) => {
       const updated = [...prev];
@@ -51,12 +60,12 @@ function Form() {
     });
   }
 
-  function updateSelectedCoaches(coach) {
-    setSelectedCoaches((prev) =>
-      prev.includes(coach)
-        ? prev.filter((item) => item !== coach)
-        : [...prev, coach]
-    );
+  function updateSelectedCoaches(index, coach) {
+    setSelectedCoaches((prev) => {
+      const updated = [...prev];
+      updated[index] = { coach };
+      return updated;
+    });
   }
 
   async function handleSubmit(e) {
@@ -79,7 +88,7 @@ function Form() {
         endTime: classData.end,
         numberOfStudents: classData.students,
         numberOfCoaches: selectedCoaches.length,
-        coachesInClass: selectedCoaches.join(", "),
+        coachesInClass: selectedCoaches.map((coach) => coach.coach).join(", "),
       };
     });
 
@@ -103,7 +112,7 @@ function Form() {
   return (
     <>
       {loading ? (
-        <p>Loading...</p>
+        <Loading />
       ) : (
         <form
           onSubmit={handleSubmit}
@@ -172,8 +181,11 @@ function Form() {
             className="block w-full p-2 border mb-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
 
-          <NumberInput state={numberOfClasses} handleOnChange={setNumber} label="How many classes do you want to send?" />
-          
+          <NumberInput
+            state={numberOfClasses}
+            handleOnChange={setNumber}
+            label="How many classes do you want to send?"
+          />
 
           {classes.map((classObj, index) => (
             <Classes
@@ -183,24 +195,73 @@ function Form() {
               updateClasses={updateClasses}
             />
           ))}
-          {numberOfClasses > 0 &&
-          <>
-          <h2 className="block text-sm font-bold text-gray-900 p-2">Who was in class?</h2>
-           { users.map((user) => (
-              <>
-                <input
-                  type="checkbox"
-                  id={`${user.coach}`}
-                  checked={selectedCoaches?.includes(user.coach) || false}
-                  onChange={() => updateSelectedCoaches(user.coach)}
-                />
-                <label htmlFor="coach">{user.coach}</label>
-              </>
-            ))}
-          </>
-            }
+          {/* {numberOfClasses > 0 && (
+            <>
+              <h2 className="block text-sm font-bold text-gray-900 p-2">
+                Who was in class?
+              </h2>
+              {users.map((user) => (
+                <label key={`${user.coach}`}
+                className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={selectedCoaches?.includes(user.coach) || false}
+                    onChange={() => updateSelectedCoaches(user.coach)}
+                    />
+                    {user.coach}
+                </label>
+              ))}
+            </>
+          )} */}
 
-          <button type="submit">Submit</button>
+          {numberOfClasses > 0 && (
+            <>
+              <NumberInput
+                handleOnChange={setNumnberOfCoaches}
+                state={numberOfCoaches}
+                label="How many coaches were in class?"
+              />
+              {numberOfCoaches > 0 &&
+                selectedCoaches.map((coachData, index) => {
+                  return (
+                    <>
+                      <label
+                        htmlFor="coach"
+                        className="block text-sm font-bold text-gray-700 p-2"
+                      >
+                        Select coach {index + 1}
+                      </label>
+                      <select
+                        id="coach"
+                        required
+                        value={selectedCoaches[index]?.coach || ""}
+                        onChange={(e) =>
+                          updateSelectedCoaches(index, e.target.value)
+                        }
+                        className="block w-full p-2 border mb-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      >
+                        <option value="" disabled>
+                          -- Select the coach --
+                        </option>
+                        {users.map((user) => (
+                          <option
+                            key={user.coach}
+                            value={user.coach}
+                          >{`${user.coach}`}</option>
+                        ))}
+                      </select>
+                    </>
+                  );
+                })}
+            </>
+          )}
+
+          <button
+            className="cursor-pointer mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1shadow-md transition"
+            type="submit"
+          >
+            Submit
+          </button>
         </form>
       )}
     </>
