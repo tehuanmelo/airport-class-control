@@ -24,7 +24,7 @@ function Home() {
   }
 
   return (
-    <main className="max-w-xl mx-auto py-3">
+    <main className="max-w-xl mx-auto py-3 pt-16">
         {data.map((data) => <DataRow key={data.id} data={data} />)}
     </main>
   );

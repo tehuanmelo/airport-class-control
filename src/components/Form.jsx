@@ -126,7 +126,7 @@ function Form() {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="max-w-xl mx-auto mt-6 p-6 bg-white shadow-md rounded-lg space-y-1"
+          className="max-w-xl mx-auto mt-6 p-6 bg-white shadow-md rounded-lg space-y-1 mt-20"
         >
           <label
             htmlFor="coach"
