@@ -3,7 +3,8 @@ import { getUsers, getLocations } from "./services";
 import Classes from "./Classes";
 import { nanoid } from "nanoid";
 
-import {URL} from "../components/services.js"
+import { URL } from "../components/services.js";
+import NumberInput from "./NumberInput.jsx";
 
 function Form() {
   const [loading, setLoading] = useState(true);
@@ -14,7 +15,7 @@ function Form() {
   const [classes, setClasses] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
-  const [number, setNumber] = useState(0);
+  const [numberOfClasses, setNumber] = useState(0);
   const [date, setDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split("T")[0]; // gives 'YYYY-MM-DD'
@@ -33,14 +34,14 @@ function Form() {
   }, []);
 
   useEffect(() => {
-    const newArray = Array.from({ length: Number(number) }, () => ({
+    const newArray = Array.from({ length: Number(numberOfClasses) }, () => ({
       status: "",
       start: "",
       end: "",
       students: "",
     }));
     setClasses(newArray);
-  }, [number]);
+  }, [numberOfClasses]);
 
   function updateClasses(index, key, value) {
     setClasses((prev) => {
@@ -62,11 +63,11 @@ function Form() {
     e.preventDefault();
 
     if (selectedCoaches.length < 1) {
-      alert("Select at least one coach")
-      return
+      alert("Select at least one coach");
+      return;
     }
 
-    const newData = classes.map(classData => {
+    const newData = classes.map((classData) => {
       return {
         id: nanoid(),
         timeStamp: new Date(),
@@ -78,10 +79,9 @@ function Form() {
         endTime: classData.end,
         numberOfStudents: classData.students,
         numberOfCoaches: selectedCoaches.length,
-        coachesInClass: selectedCoaches.join(", ")
-      }
-
-    })
+        coachesInClass: selectedCoaches.join(", "),
+      };
+    });
 
     try {
       const response = await fetch(URL, {
@@ -98,7 +98,6 @@ function Form() {
     } catch (error) {
       console.error("Submission failed:", error);
     }
-    
   }
 
   return (
@@ -106,14 +105,22 @@ function Form() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="coach">Who is submiting the form?</label>
-          <br />
+        <form
+          onSubmit={handleSubmit}
+          className="max-w-xl mx-auto mt-6 p-6 bg-white shadow-md rounded-lg space-y-1"
+        >
+          <label
+            htmlFor="coach"
+            className="block text-sm font-bold text-gray-700 p-2"
+          >
+            Who is submiting the form?
+          </label>
           <select
             id="coach"
             required
             value={selectedUser}
             onChange={(e) => setSelectedUser(e.target.value)}
+            className="block w-full p-2 border mb-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="" disabled>
               -- Select the coach --
@@ -125,15 +132,19 @@ function Form() {
               >{`${user.coach}`}</option>
             ))}
           </select>
-          <br />
 
-          <label htmlFor="coach">Location of the Classes</label>
-          <br />
+          <label
+            className="block text-sm font-bold text-gray-700 p-2"
+            htmlFor="coach"
+          >
+            Location of the Classes
+          </label>
           <select
             id="location"
             required
             value={selectedLocation}
             onChange={(e) => setSelectedLocation(e.target.value)}
+            className="block w-full p-2 border mb-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="" disabled>
               -- Select the location --
@@ -145,30 +156,24 @@ function Form() {
               >{`${location.base}`}</option>
             ))}
           </select>
-          <br />
 
-          <label htmlFor="date">Date of the class</label>
-          <br />
+          <label
+            className="block text-sm font-bold text-gray-700 p-2"
+            htmlFor="date"
+          >
+            Date of the class
+          </label>
           <input
             id="date"
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
             required
+            className="block w-full p-2 border mb-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
-          <br />
 
-          <label htmlFor="number">How many classes do you want to send?</label>
-          <br />
-          <input
-            id="number"
-            type="number"
-            min="1"
-            value={number}
-            onChange={(e) => setNumber(e.target.value)}
-            required
-          />
-          <br />
+          <NumberInput state={numberOfClasses} handleOnChange={setNumber} label="How many classes do you want to send?" />
+          
 
           {classes.map((classObj, index) => (
             <Classes
@@ -178,9 +183,10 @@ function Form() {
               updateClasses={updateClasses}
             />
           ))}
-          <h2>Who was in class?</h2>
-          {number > 0 &&
-            users.map((user) => (
+          {numberOfClasses > 0 &&
+          <>
+          <h2 className="block text-sm font-bold text-gray-900 p-2">Who was in class?</h2>
+           { users.map((user) => (
               <>
                 <input
                   type="checkbox"
@@ -188,9 +194,11 @@ function Form() {
                   checked={selectedCoaches?.includes(user.coach) || false}
                   onChange={() => updateSelectedCoaches(user.coach)}
                 />
-                <label htmlFor="coach">{user.coach}</label><br />
+                <label htmlFor="coach">{user.coach}</label>
               </>
             ))}
+          </>
+            }
 
           <button type="submit">Submit</button>
         </form>

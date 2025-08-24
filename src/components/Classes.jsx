@@ -1,58 +1,47 @@
+import NumberInput from "./NumberInput";
+import Radio from "./Radio";
+import TimeInput from "./TimeInput";
+
 function Classes({ data, classId, updateClasses }) {
   return (
-    <div>
-      <h2>Class {classId + 1}</h2>
-
-      <label>
-        <input
-          type="radio"
-          name={`status-${classId}`}
-          value="given"
-          checked={data.status === "given"}
-          onChange={e => updateClasses(classId, "status", e.target.value)}
-          required
+    <div className=" p-2 mb-3 rounded-md shadow-sm border border-gray-300 space-y-1">
+      <h2 className=" block w-full font-bold p-2 text-sm">
+        Class {classId + 1}
+      </h2>
+      <div className="flex space-x-3">
+        <Radio
+          handleOnchange={updateClasses}
+          data={data}
+          classId={classId}
+          label="Given"
         />
-        Given
+        <Radio
+          handleOnchange={updateClasses}
+          data={data}
+          classId={classId}
+          label="Canceled"
+        />
+      </div>
+      <TimeInput
+        handleOnChange={updateClasses}
+        data={data}
+        classId={classId}
+        label="Start Time"
+        inputId="start"
+      />
+      <TimeInput
+        handleOnChange={updateClasses}
+        data={data}
+        classId={classId}
+        label="End Time"
+        inputId="end"
+      />
+      <label
+        htmlFor="number"
+        className="block text-sm p-2"
+      >
+        Number of students
       </label>
-
-      <label>
-        <input
-          type="radio"
-          name={`status-${classId}`}
-          value="canceled"
-          checked={data.status === "canceled"}
-          onChange={e => updateClasses(classId, "status", e.target.value)}
-          required
-        />
-        Canceled
-      </label><br />
-
-      <label htmlFor="start">Start Time</label>
-      <input
-        type="time"
-        id="start"
-        value={data.start}
-        onChange={(e) => updateClasses(classId, "start", e.target.value)}
-        required
-      /> <br />
-
-      <label htmlFor="end">End Time</label>
-      <input
-        type="time"
-        id="end"
-        value={data.end}
-        onChange={(e) => {
-            const newEnd = e.target.value
-            if (newEnd < data.start) {
-                alert("End time must be after start time")
-                return
-            }
-            updateClasses(classId, "end", e.target.value)
-        }}
-        required
-      /> <br />
-
-      <label htmlFor="number">Number of students</label>
       <input
         min="0"
         type="number"
@@ -60,7 +49,10 @@ function Classes({ data, classId, updateClasses }) {
         value={data.students}
         onChange={(e) => updateClasses(classId, "students", e.target.value)}
         required
-      /> <br /><br />
+        className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+      />{" "}
+      <br />
+      <br />
     </div>
   );
 }
