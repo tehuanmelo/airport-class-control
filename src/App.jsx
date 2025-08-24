@@ -6,7 +6,7 @@ import Layout from '../src/components/Layout'
 
 function App() {
   return (
-    <Router basename="/google-form-app">
+    <Router>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
