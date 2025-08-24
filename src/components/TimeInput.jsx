@@ -9,7 +9,7 @@ function TimeInput({ data, handleOnChange, classId, label, inputId }) {
       <input
         type="time"
         id={inputId}
-        value={data.start}
+        value={data[inputId]}
         onChange={(e) => handleOnChange(classId, inputId, e.target.value)}
         required
         className="block w-full p-2 border mb-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
