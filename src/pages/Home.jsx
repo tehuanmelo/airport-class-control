@@ -12,7 +12,8 @@ function Home() {
     async function fetchData() {
       const dataFetched = await getData();
       if (dataFetched) {
-        setData(dataFetched);
+        const sorted = dataFetched.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        setData(sorted);
         setLoading(false);
       }
     }

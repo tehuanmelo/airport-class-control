@@ -13,9 +13,9 @@ function DataRow({ data }) {
         <div className="">
           <span
             className={`px-2 py-1 rounded-full text-xs ${
-              data.status === "given"
+              data.status === "Given"
                 ? "text-green-600"
-                : data.status === "canceled"
+                : data.status === "Canceled"
                 ? "text-red-600"
                 : "text-gray-400"
             }`}
