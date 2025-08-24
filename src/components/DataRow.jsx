@@ -31,12 +31,12 @@ function DataRow({ data }) {
             </span>
           </div>
           <div className="flex gap-2">
-            <span>{`Time: ${new Date(data.start).toLocaleTimeString([], {
+            <p><span className="font-medium text-gray-900">Time: </span>{new Date(data.start).toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
-            })}`}</span>
-            <span>{`Students: ${data.numStudents}`}</span>
-            <span>{`Coaches: ${data.numCoaches}`}</span>
+            })}</p>
+            <p><span className="font-medium text-gray-900">Students: </span>{data.numStudents}</p>
+            <p><span className="font-medium text-gray-900">Coaches: </span>{data.numCoaches}</p>
           </div>
         </div>
       </div>
