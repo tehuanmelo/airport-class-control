@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { getUsers, getLocations } from "./services";
-import Classes from "./Classes";
 import { nanoid } from "nanoid";
+import { useNavigate } from "react-router-dom";
 
-import { URL } from "../components/services.js";
+import Classes from "./Classes";
 import NumberInput from "./NumberInput.jsx";
 import Loading from "./Loading.jsx";
+
+import { URL } from "../components/services.js";
 
 function Form() {
   const [loading, setLoading] = useState(true);
@@ -16,13 +18,14 @@ function Form() {
   const [classes, setClasses] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
-  const [numberOfClasses, setNumber] = useState(0);
-  const [numberOfCoaches, setNumnberOfCoaches] = useState(0);
+  const [numberOfClasses, setNumber] = useState("");
+  const [numberOfCoaches, setNumnberOfCoaches] = useState("");
   const [date, setDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split("T")[0]; // gives 'YYYY-MM-DD'
   });
   const [selectedCoaches, setSelectedCoaches] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function fetchData() {
@@ -70,6 +73,7 @@ function Form() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true)
 
     if (selectedCoaches.length < 1) {
       alert("Select at least one coach");
@@ -101,11 +105,17 @@ function Form() {
         body: JSON.stringify(newData),
       });
 
-      const result = await response.text();
-      console.log("Submitted successfully:", result);
-      console.log(newData);
+      const result = await response.json();
+      if (result.status === 'success') {
+        console.log("Submitted successfully:", result);
+        console.log(newData);
+        navigate("/")
+      }
     } catch (error) {
       console.error("Submission failed:", error);
+      alert("Network Error")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -195,24 +205,6 @@ function Form() {
               updateClasses={updateClasses}
             />
           ))}
-          {/* {numberOfClasses > 0 && (
-            <>
-              <h2 className="block text-sm font-bold text-gray-900 p-2">
-                Who was in class?
-              </h2>
-              {users.map((user) => (
-                <label key={`${user.coach}`}
-                className="flex items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={selectedCoaches?.includes(user.coach) || false}
-                    onChange={() => updateSelectedCoaches(user.coach)}
-                    />
-                    {user.coach}
-                </label>
-              ))}
-            </>
-          )} */}
 
           {numberOfClasses > 0 && (
             <>
@@ -224,15 +216,15 @@ function Form() {
               {numberOfCoaches > 0 &&
                 selectedCoaches.map((coachData, index) => {
                   return (
-                    <>
+                    <div key={`${index}-${coachData.coach}`}>
                       <label
-                        htmlFor="coach"
+                        htmlFor={`${index}-${coachData.coach}`}
                         className="block text-sm font-bold text-gray-700 p-2"
                       >
                         Select coach {index + 1}
                       </label>
                       <select
-                        id="coach"
+                        id={`${index}-${coachData.coach}`}
                         required
                         value={selectedCoaches[index]?.coach || ""}
                         onChange={(e) =>
@@ -243,14 +235,14 @@ function Form() {
                         <option value="" disabled>
                           -- Select the coach --
                         </option>
-                        {users.map((user) => (
+                        {users.map((user, index) => (
                           <option
-                            key={user.coach}
+                            key={`${index}-${user.coach}`}
                             value={user.coach}
                           >{`${user.coach}`}</option>
                         ))}
                       </select>
-                    </>
+                    </div>
                   );
                 })}
             </>

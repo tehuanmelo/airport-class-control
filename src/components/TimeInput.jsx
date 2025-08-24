@@ -3,12 +3,12 @@ import React from "react";
 function TimeInput({ data, handleOnChange, classId, label, inputId }) {
   return (
     <>
-      <label htmlFor="start" className="block text-sm p-2">
+      <label htmlFor={`${inputId}-${classId}`} className="block text-sm p-2">
         {label}
       </label>
       <input
         type="time"
-        id={inputId}
+        id={`${inputId}-${classId}`}
         value={data[inputId]}
         onChange={(e) => handleOnChange(classId, inputId, e.target.value)}
         required

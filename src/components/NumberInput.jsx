@@ -5,12 +5,12 @@ function NumberInput({handleOnChange, state, label}) {
     <div>
       <label
         className="block text-sm font-bold text-gray-700 p-2"
-        htmlFor="number"
+        htmlFor={`${label}`}
       >
         {label}
       </label>
       <input
-        id="number"
+        id={`${label}`}
         type="number"
         min="1"
         value={state}

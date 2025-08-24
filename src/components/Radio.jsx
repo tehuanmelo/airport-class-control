@@ -6,13 +6,13 @@ function Radio({ handleOnchange, classId, data, label }) {
       <input
         type="radio"
         name={`status-${classId}`}
-        id={`status-${classId}`}
+        id={`${classId}-${label}`}
         value={label}
         checked={data.status === label}
         onChange={(e) => handleOnchange(classId, "status", e.target.value)}
         required
       />
-      <label className="text-sm">{label}</label>
+      <label htmlFor={`${classId}-${label}`} className="text-sm">{label}</label>
     </div>
   );
 }

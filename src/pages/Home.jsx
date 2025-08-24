@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { getData } from "../components/services.js";
 import Loading from "../components/Loading.jsx";
+import DataRow from "../components/DataRow.jsx";
 
 function Home() {
   const [data, setData] = useState([]);
@@ -23,19 +24,8 @@ function Home() {
   }
 
   return (
-    <main>
-      <ul>
-        {data.map((data) => (
-          <li key={data.id}>
-            {`${new Date(data.date).toLocaleDateString()} - 
-            ${data.status} - 
-            ${data.location} - 
-            ${new Date(data.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - 
-            ${data.numStudents} students - 
-            ${data.numCoaches} coaches`}
-          </li>
-        ))}
-      </ul>
+    <main className="max-w-xl mx-auto py-3">
+        {data.map((data) => <DataRow key={data.id} data={data} />)}
     </main>
   );
 }
