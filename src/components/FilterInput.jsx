@@ -1,33 +1,37 @@
-import { useState } from 'react'
+import { useState } from "react";
 
-function FilterInput({data, setFilterData, label}) {
-  const [filterText, setFilterText] = useState("")
+function FilterInput({ data, setFilterData, label }) {
+  const [filterText, setFilterText] = useState("");
 
   return (
-    <label className='flex items-center gap-2 p-2'>
+    <div className="fixed top-16 left-0 right-0 z-40 p-3 bg-white">
+      <label className="flex items-center gap-2 max-w-xl m-auto">
         {label}
-        <input type="text" placeholder='Search by location or date...' 
-        value={filterText}
-        onChange={e => {
-          const text = e.target.value.toLowerCase()
-          setFilterText(text)
+        <input
+          type="text"
+          placeholder="Search by location or date..."
+          value={filterText}
+          onChange={(e) => {
+            const text = e.target.value.toLowerCase();
+            setFilterText(text);
 
-          let filtered = data.filter(item => {
-            const location = item.location.toLowerCase()
-            const date = new Date(item.date).toLocaleDateString()
-            console.log(date);
-            if (location.includes(text) || date.includes(text)) {
-              return item
-            }
-          })
+            let filtered = data.filter((item) => {
+              const location = item.location.toLowerCase();
+              const date = new Date(item.date).toLocaleDateString();
+              console.log(date);
+              if (location.includes(text) || date.includes(text)) {
+                return item;
+              }
+            });
 
-          if (text.trim() === "") filtered = data
-          setFilterData(filtered)
-        }}
-        className='w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500'
+            if (text.trim() === "") filtered = data;
+            setFilterData(filtered);
+          }}
+          className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
         />
-    </label>
-  )
+      </label>
+    </div>
+  );
 }
 
-export default FilterInput
+export default FilterInput;
