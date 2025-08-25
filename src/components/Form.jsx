@@ -25,7 +25,9 @@ function Form() {
     return today.toISOString().split("T")[0]; // gives 'YYYY-MM-DD'
   });
   const [selectedCoaches, setSelectedCoaches] = useState([]);
-  const navigate = useNavigate()
+
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -73,12 +75,7 @@ function Form() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setLoading(true)
-
-    if (selectedCoaches.length < 1) {
-      alert("Select at least one coach");
-      return;
-    }
+    setLoading(true);
 
     const newData = classes.map((classData) => {
       return {
@@ -106,16 +103,16 @@ function Form() {
       });
 
       const result = await response.json();
-      if (result.status === 'success') {
+      if (result.status === "success") {
         console.log("Submitted successfully:", result);
         console.log(newData);
-        navigate("/")
+        navigate("/");
       }
     } catch (error) {
       console.error("Submission failed:", error);
-      alert("Network Error")
+      alert("Network Error");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -144,7 +141,7 @@ function Form() {
             <option value="" disabled>
               -- Select the coach --
             </option>
-            {users.map((user, id) => (
+            {users.map((user) => (
               <option
                 key={user.coach}
                 value={user.coach}

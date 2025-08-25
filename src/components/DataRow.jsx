@@ -8,7 +8,7 @@ function DataRow({ data }) {
     <>
       <div
         onClick={() => setReveal((prev) => !prev)}
-        className="bg-white shadow text-sm text-gray-700 mt-2 p-2 cursor-pointer"
+        className={`border ${reveal ? "border-blue-400": "border-none"} bg-white shadow text-sm text-gray-700 mt-2 p-2 cursor-pointer hover:bg-gray-50`}
       >
         <div className="flex justify-between">
           <span className="font-medium text-gray-900">{`${new Date(

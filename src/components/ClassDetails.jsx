@@ -22,7 +22,7 @@ function ClassDetails({ data }) {
         <div className="left-bottom">
           <h2 className="font-bold">Coaches in class:</h2>
           {data.coaches.split(", ").map((coach) => (
-            <div>{coach}</div>
+            <div key={coach}>{coach}</div>
           ))}
         </div>
       </div>
