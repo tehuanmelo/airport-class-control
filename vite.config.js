@@ -4,6 +4,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/google-form-app',
+  base: '/airport-class-control',
   plugins: [react(), tailwindcss(),],
 })

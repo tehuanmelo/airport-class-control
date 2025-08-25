@@ -9,7 +9,7 @@ function FilterInput({ data, setFilterData, label }) {
         {label}
         <input
           type="text"
-          placeholder="Search by location or date..."
+          placeholder="Search by location, date, ps or name..."
           value={filterText}
           onChange={(e) => {
             const text = e.target.value.toLowerCase();
@@ -18,8 +18,9 @@ function FilterInput({ data, setFilterData, label }) {
             let filtered = data.filter((item) => {
               const location = item.location.toLowerCase();
               const date = new Date(item.date).toLocaleDateString();
-              console.log(date);
-              if (location.includes(text) || date.includes(text)) {
+              const coaches = item.coaches.toLowerCase()
+              console.log(typeof(coaches))
+              if (location.includes(text) || date.includes(text) || coaches.includes(text)) {
                 return item;
               }
             });

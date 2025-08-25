@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://tehuanmelo.github.io/google-form-app/",
+  "homepage": "https://tehuanmelo.github.io/airport-class-control/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
