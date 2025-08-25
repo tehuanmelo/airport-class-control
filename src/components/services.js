@@ -16,7 +16,7 @@ export async function getData() {
 
 export async function getUsers() {
     try {
-        const response = await fetch(`${URL}?data=users`)
+        const response = await fetch(`${URL}?data=coaches`)
         const result = await response.json()
         return result
     } catch (error) {

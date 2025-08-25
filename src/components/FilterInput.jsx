@@ -15,7 +15,16 @@ function FilterInput({ data, setFilterData, label }) {
             const text = e.target.value.toLowerCase();
             setFilterText(text);
 
-            let filtered = data.filter((item) => {
+            const sorted = data.sort((a,b) => {
+              const dateDiff = new Date(b.date) - new Date(a.date)
+              const locationDiff = a.location.localeCompare(b.location)
+              const timeDiff = new Date(a.start) - new Date(b.start)
+              if (dateDiff != 0) return dateDiff
+              if (locationDiff != 0) return locationDiff
+              if (timeDiff != 0) return timeDiff
+            })
+
+            let filtered = sorted.filter((item) => {
               const location = item.location.toLowerCase();
               const date = new Date(item.date).toLocaleDateString();
               const coaches = item.coaches.toLowerCase()

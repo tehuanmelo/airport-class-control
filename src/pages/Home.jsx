@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+
 import { getData } from "../components/services.js";
 import Loading from "../components/Loading.jsx";
 import DataRow from "../components/DataRow.jsx";
@@ -9,21 +10,11 @@ function Home() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     async function fetchData() {
       const dataFetched = await getData();
       if (dataFetched) {
-        const sorted = dataFetched.sort((a, b) => {
-          const dateDiff = new Date(b.date) - new Date(a.date);
-          if (dateDiff !== 0) return dateDiff;
-          const locationDiff = a.location.localeCompare(b.location);
-          if (locationDiff !== 0) return locationDiff;
-          const startDiff = new Date(a.start) - new Date(b.start);
-          if (startDiff !== 0) return startDiff;
-
-          return a.location.localeCompare(b.location);
-        });
+        const sorted = dataFetched.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
         setData(sorted);
         setFilterData(sorted);
         setLoading(false);
