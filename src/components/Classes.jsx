@@ -37,7 +37,7 @@ function Classes({ data, classId, updateClasses }) {
         inputId="end"
       />
       <label
-        htmlFor="number"
+        htmlFor={classId}
         className="block text-sm p-2"
       >
         Number of students
@@ -45,7 +45,8 @@ function Classes({ data, classId, updateClasses }) {
       <input
         min="0"
         type="number"
-        id="number"
+        placeholder="Insert the number of students..."
+        id={classId}
         value={data.students}
         onChange={(e) => updateClasses(classId, "students", e.target.value)}
         required

@@ -13,6 +13,7 @@ function NumberInput({handleOnChange, state, label}) {
         id={`${label}`}
         type="number"
         min="1"
+        placeholder="insert the number of classes..."
         value={state}
         onChange={(e) => handleOnChange(e.target.value)}
         required
