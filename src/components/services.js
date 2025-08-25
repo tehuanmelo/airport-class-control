@@ -1,7 +1,6 @@
 
 
-export const URL = "https://script.google.com/macros/s/AKfycbyspyIgE57DwoAw_LxKPRC1I3Ne6rjQhIEaiD6ge1ZdEmOkz0h5Rr7sq8Gmhz_mNFy_Fg/exec"
-
+export const URL = import.meta.env.VITE_SECRET_KEY
 
 
 

@@ -1,13 +1,28 @@
-# React + Vite
+# 📝 Class Control Form
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple, mobile-first React app to collect and display form data using **Google Sheets** as a backend database.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ✅ Submit form data to a Google Sheet via Google Apps Script
+- 🔍 Filter and display submitted data in a clean UI
+- ⏳ Loading indicators during data fetch/post
+- 🎨 Styled with **Tailwind CSS** for a professional, responsive design
+- 🗂️ Uses components like `Form`, `Home`, `DataRow`, and `FilterInput`
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# google-form-app
+- **React**
+- **Tailwind CSS**
+- **Google Apps Script** (used as a serverless backend)
+- **GitHub Pages** (for deployment)
+
+
+## 📡 Backend (Google Apps Script)
+
+- Handles POST and GET requests
+- Appends form submissions to a Google Sheet
+- Responds with JSON data for frontend rendering
+
+
+Built with ❤️ using React, Tailwind CSS, and Google Sheets.
